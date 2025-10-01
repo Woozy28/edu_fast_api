@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>METANIT.COM</title>
+    <meta charset="utf-8" />
+</head>
+<body>
+    <div id="message"></div>
+     <p>
+        Введите первое число: <br /> 
+        <input name ="first_num" id="first_num" type="number" />
+    </p>
+     <p>
+        Введите второе число: <br /> 
+        <input name="second_num" id="second_num" type="number" />
+    </p>
+    <button onclick="send()">Рассчитать</button>
+<script>
+    async function send(){
+ 
+        // получаем введеное в поле имя и возраст
+        const first_num = document.getElementById("first_num").value;
+        const second_num = document.getElementById("second_num").value;
+ 
+        // отправляем запрос
+        const response = await fetch("/calculate", {
+                method: "POST",
+                headers: { "Accept": "application/json", "Content-Type": "application/json" },
+                body: JSON.stringify({ 
+                    first_num: first_num,
+                    second_num: second_num
+                })
+            });
+            if (response.ok) {
+                const data = await response.json();
+                document.getElementById("message").textContent = data.message;
+            }
+            else
+                console.log(response);
+    }
+</script>
+</body>
+</html>
